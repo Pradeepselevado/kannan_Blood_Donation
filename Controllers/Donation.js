@@ -120,7 +120,7 @@ module.exports.donationByUserId = async (req, res) => {
     try {
         console.log(userId, bloodNeedId, donationId);
 
-        const donation = await donationModal.findOne({_id:donationId });
+        const donation = await donationModal.findOne({ _id: donationId });
         console.log(donation);
 
         if (!donation) {
@@ -143,7 +143,7 @@ module.exports.donationByUserId = async (req, res) => {
         );
         console.log(bloodNeedId);
         let data = await bloodNeedModel.findById(bloodNeedId)
-        .populate('donationBy', 'username email phoneno bloodType');
+            .populate('donationBy', 'username email phoneno bloodType');
 
         console.log(data);
 
@@ -154,5 +154,18 @@ module.exports.donationByUserId = async (req, res) => {
     }
 }
 
+module.exports.getByuserId = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const donation = await donationModal.find({ userId }).populate('userId', 'username email phoneno bloodType');
+        if (!donation) {
+            return res.json({ status: false, message: "Donation record not found for this user" });
+        }
+        return res.json({ status: true, donation });
+    } catch (error) {
+        return res.json({ message: "Server error", error: error.message });
+    }
+
+}
 
 

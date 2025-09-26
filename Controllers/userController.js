@@ -115,5 +115,24 @@ module.exports.uniqueMobileNumber = async (req, res) => {
     }
 }
 
+module.exports.updateUserBloodType = async (req, res) => {
+    const { userId, bloodType } = req.body;
+    try {
+        const user = await userModal.findById(userId);
+        if (!user) {
+            return res.json({ status: false, message: "User not found" });
+        }
+        user.bloodType = bloodType;
+        await user.save();
+        return res.json({ status: true, message: "Blood type updated successfully", user });
+
+    }
+    catch (error) {
+        return res.json({ message: "Server error", error: error.message });
+    }
+}
+
+
+
 
 

@@ -18,6 +18,9 @@ const userSchema = new Schema({
         type: String,
         enum: ['Male', 'Female', 'Other']
     },
+    bloodType: {
+        type: String,
+    }
 })
 
 userSchema.pre("save", function (next) {

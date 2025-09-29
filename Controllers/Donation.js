@@ -77,7 +77,7 @@ module.exports.updateDonation = async (req, res) => {
 }
 
 module.exports.getByType = async (req, res) => {
-    const { bloodType } = req.params;
+    const { bloodType,location } = req.body;
     try {
 
         const donations = await donationModal.aggregate([
@@ -87,7 +87,8 @@ module.exports.getByType = async (req, res) => {
                         { lastDonationDate: { $gte: new Date(new Date().setMonth(new Date().getMonth() - 3)) } },
                         { lastDonationDate: null }
                     ],
-                    bloodType: bloodType
+                    bloodType: bloodType,
+                    location:location
                 }
             }, {
                 $lookup: {
